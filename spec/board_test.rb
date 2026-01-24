@@ -1,9 +1,13 @@
+require_relative './shared_board_tests'
+
 class Board
   attr_reader :height, :width
+
   EMPTY_SPACE = :empty
   def initialize(height = 3, width = 3)
     @height = height
     @width = width
+    @empty_spaces = height * width
     @spaces = Array.new(height) { Array.new(width) { EMPTY_SPACE } }
   end
 
@@ -18,10 +22,16 @@ class Board
   end
 
   def []=(row, col, mark)
-    # raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
+    raise StandardError, 'Board is full' if full?
+    raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
     raise StandardError, "Can't occupy an occupied space" unless empty_space?(row, col)
 
+    @empty_spaces -= 1
     @spaces[row][col] = mark.to_sym
+  end
+
+  def full?
+    @empty_spaces.zero?
   end
 
   private
@@ -37,13 +47,7 @@ class Board
   def legal_coords?(row, col)
     row.between?(0, @height) && col.between?(0, @width)
   end
-
-  def legal_mark?(row, col)
-    empty_space?(row, col) && legal_coords?(row, col)
-  end
 end
-
-require_relative './shared_board_tests'
 
 describe Board do
   let(:mark) { '$' }
@@ -55,19 +59,19 @@ describe Board do
       empty_board = Array.new(3) { Array.new(3) { ' ' } }
       expect(board.show).to eq(empty_board)
     end
-    context 'raises errors when out of bounds' do
+    context 'when running common board tests' do
       include_examples 'common_board_tests'
     end
   end
   context 'when creating a rectangular board' do
     let(:row) { 3 }
     let(:column) { 5 }
-    subject(:board) { described_class.new(7, 6) }
+    subject(:board) { described_class.new(6, 7) }
     it 'creates an empty board' do
-      empty_board = Array.new(7) { Array.new(6) { ' ' } }
+      empty_board = Array.new(6) { Array.new(7) { ' ' } }
       expect(board.show).to eq(empty_board)
     end
-    context 'raises errors when out of bounds' do
+    context 'when running common board tests' do
       include_examples 'common_board_tests'
     end
   end
