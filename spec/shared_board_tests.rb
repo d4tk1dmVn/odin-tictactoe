@@ -10,9 +10,31 @@ def expect_mark_to_change(row, column)
   expect { board[row, column] = mark }.to change { board[row, column] }.from(' ').to(mark)
 end
 
-def fill_board
+def fill_board_with_mark
   board.height.times { |row| board.width.times { |column| board[row, column] = mark } }
 end
+
+def fill_board_with_numbers
+  content = 0
+  board.height.times do |row|
+    board.width.times do |column|
+      board[row, column] = content.to_s
+      content += 1
+    end
+  end
+end
+
+def create_expected_output_of_marks
+  Array.new(board.height) { Array.new(board.width) { mark } }
+end
+
+def create_expected_output_of_numbers
+  (0...(board.height * board.width)).map(&:to_s).each_slice(board.width).to_a
+end
+#
+# def expect_rows_to_match_expected_output(expected_output)
+#
+# end
 
 RSpec.shared_examples 'common_board_tests' do
   context 'when reading/writing specific and valid spaces' do
@@ -75,15 +97,31 @@ RSpec.shared_examples 'common_board_tests' do
       expect(board.full?).to be false
     end
     it 'can return true when we fill the board' do
-      fill_board
+      fill_board_with_mark
       expect(board.full?).to be true
     end
   end
 
   context 'when the board is full' do
-    before { fill_board }
+    before { fill_board_with_mark }
     it "can't occupy any space on the board" do
       expect { board[row, column] = mark }.to raise_error('Board is full')
+    end
+  end
+
+  context 'when going over the rows of the board' do
+    it 'yields the control height amount of times' do
+      expect { |b| board.each_row(&b) }.to yield_control.exactly(board.height).times
+    end
+    it 'yields the content of each row in board filled with the same mark' do
+      fill_board_with_mark
+      expected_output = create_expected_output_of_marks
+      expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
+    end
+    it 'yields the content of each row in board filled with the same mark' do
+      fill_board_with_numbers
+      expected_output = create_expected_output_of_numbers
+      expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
     end
   end
 end
