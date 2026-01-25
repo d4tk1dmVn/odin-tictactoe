@@ -32,6 +32,12 @@ class Board
     @empty_spaces.zero?
   end
 
+  def each_row
+    @spaces.each do |row|
+      yield row.map { |space| stringify(space) }
+    end
+  end
+
   private
 
   def stringify(value)
