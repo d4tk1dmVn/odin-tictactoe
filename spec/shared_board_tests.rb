@@ -31,10 +31,6 @@ end
 def create_expected_output_of_numbers
   (0...(board.height * board.width)).map(&:to_s).each_slice(board.width).to_a
 end
-#
-# def expect_rows_to_match_expected_output(expected_output)
-#
-# end
 
 RSpec.shared_examples 'common_board_tests' do
   context 'when reading/writing specific and valid spaces' do
@@ -110,18 +106,70 @@ RSpec.shared_examples 'common_board_tests' do
   end
 
   context 'when going over the rows of the board' do
-    it 'yields the control height amount of times' do
-      expect { |b| board.each_row(&b) }.to yield_control.exactly(board.height).times
+    context 'when a block is given' do
+      it 'yields the control height amount of times' do
+        expect { |b| board.each_row(&b) }.to yield_control.exactly(board.height).times
+      end
+      it 'yields the content of each row in board filled with the same mark' do
+        fill_board_with_mark
+        expected_output = create_expected_output_of_marks
+        expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
+      end
+      it 'yields the content of each row in board filled with numbers' do
+        fill_board_with_numbers
+        expected_output = create_expected_output_of_numbers
+        expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
+      end
     end
-    it 'yields the content of each row in board filled with the same mark' do
-      fill_board_with_mark
-      expected_output = create_expected_output_of_marks
-      expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
+
+    context 'when no block is given'do
+      it 'returns an enumerator' do
+        expect(board.each_row).to be_an(Enumerator)
+      end
+      it 'returns the content of all rows in board filled with the same mark' do
+        fill_board_with_mark
+        expected_output = create_expected_output_of_marks
+        expect(board.each_row.to_a).to eq(expected_output) 
+      end
+      it 'returns the content of all rows in board filled with numbers' do
+        fill_board_with_numbers
+        expected_output = create_expected_output_of_numbers
+        expect(board.each_row.to_a).to eq(expected_output)
+      end
     end
-    it 'yields the content of each row in board filled with the same mark' do
-      fill_board_with_numbers
-      expected_output = create_expected_output_of_numbers
-      expect { |b| board.each_row(&b) }.to yield_successive_args(*expected_output)
+  end
+
+  context 'when going over the columns of the board' do
+    context 'when a block is given' do
+      it 'yields the control width amount of times' do
+        expect { |b| board.each_column(&b) }.to yield_control.exactly(board.width).times
+      end
+      it 'yields the content of each column in board filled with the same mark' do
+        fill_board_with_mark
+        expected_output = create_expected_output_of_marks.transpose
+        expect { |b| board.each_column(&b) }.to yield_successive_args(*expected_output)
+      end
+      it 'yields the content of each column in board filled with numbers' do
+        fill_board_with_numbers
+        expected_output = create_expected_output_of_numbers.transpose
+        expect { |b| board.each_column(&b) }.to yield_successive_args(*expected_output)
+      end
+    end
+
+    context 'when no block is given'do
+      it 'returns an enumerator' do
+        expect(board.each_column).to be_an(Enumerator)
+      end
+      it 'returns the content of all columns in board filled with the same mark' do
+        fill_board_with_mark
+        expected_output = create_expected_output_of_marks.transpose
+        expect(board.each_column.to_a).to eq(expected_output) 
+      end
+      it 'returns the content of all columns in board filled with numbers' do
+        fill_board_with_numbers
+        expected_output = create_expected_output_of_numbers.transpose
+        expect(board.each_column.to_a).to eq(expected_output)
+      end
     end
   end
 end
