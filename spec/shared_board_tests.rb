@@ -172,4 +172,12 @@ RSpec.shared_examples 'common_board_tests' do
       end
     end
   end
+  context 'when attempting to get the diagonals of out-of-bounds spaces' do
+    it 'fails when attempting to get the diagonals of a vertically out-of-bounds space' do
+      expect_board_read_to_raise_out_of_bounds(board.height + 1, column)
+    end
+    it 'fails when attempting to get the diagonals of a horizontally out-of-bounds space' do
+      expect_board_read_to_raise_out_of_bounds(row, board.width + 1)
+    end
+  end
 end
