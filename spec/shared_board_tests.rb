@@ -7,7 +7,8 @@ def expect_board_write_to_raise_out_of_bounds(row, column)
 end
 
 def expect_mark_to_change(row, column)
-  expect { board[row, column] = mark }.to change { board[row, column] }.from(' ').to(mark)
+  previous_content = board[row, column]
+  expect { board[row, column] = mark }.to change { board[row, column] }.from(previous_content).to(mark)
 end
 
 def fill_board_with_mark
