@@ -122,14 +122,14 @@ RSpec.shared_examples 'common_board_tests' do
       end
     end
 
-    context 'when no block is given'do
+    context 'when no block is given' do
       it 'returns an enumerator' do
         expect(board.each_row).to be_an(Enumerator)
       end
       it 'returns the content of all rows in board filled with the same mark' do
         fill_board_with_mark
         expected_output = create_expected_output_of_marks
-        expect(board.each_row.to_a).to eq(expected_output) 
+        expect(board.each_row.to_a).to eq(expected_output)
       end
       it 'returns the content of all rows in board filled with numbers' do
         fill_board_with_numbers
@@ -156,14 +156,14 @@ RSpec.shared_examples 'common_board_tests' do
       end
     end
 
-    context 'when no block is given'do
+    context 'when no block is given' do
       it 'returns an enumerator' do
         expect(board.each_column).to be_an(Enumerator)
       end
       it 'returns the content of all columns in board filled with the same mark' do
         fill_board_with_mark
         expected_output = create_expected_output_of_marks.transpose
-        expect(board.each_column.to_a).to eq(expected_output) 
+        expect(board.each_column.to_a).to eq(expected_output)
       end
       it 'returns the content of all columns in board filled with numbers' do
         fill_board_with_numbers
