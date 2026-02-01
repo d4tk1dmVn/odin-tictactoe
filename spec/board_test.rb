@@ -1,4 +1,5 @@
 require_relative './shared_board_tests'
+require_relative './diagonals_tests'
 
 class Board
   attr_reader :height, :width
@@ -51,6 +52,10 @@ class Board
     end
   end
 
+  def diagonals_at(row, col)
+    raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
+  end
+
   private
 
   def stringify(value)
@@ -80,12 +85,24 @@ describe Board do
       include_examples 'common_board_tests'
     end
   end
-  context 'when creating a rectangular board' do
+  context 'when creating a wider-than-taller board' do
     let(:row) { 3 }
     let(:column) { 5 }
     subject(:board) { described_class.new(6, 7) }
     it 'creates an empty board' do
       empty_board = Array.new(6) { Array.new(7) { ' ' } }
+      expect(board.show).to eq(empty_board)
+    end
+    context 'when running common board tests' do
+      include_examples 'common_board_tests'
+    end
+  end
+  context 'when creating a taller-than-wider board' do
+    let(:row) { 5 }
+    let(:column) { 3 }
+    subject(:board) { described_class.new(7, 6) }
+    it 'creates an empty board' do
+      empty_board = Array.new(7) { Array.new(6) { ' ' } }
       expect(board.show).to eq(empty_board)
     end
     context 'when running common board tests' do
