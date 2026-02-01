@@ -1,5 +1,5 @@
-require_relative './shared_board_tests'
-require_relative './diagonals_tests'
+require_relative 'shared_board_tests'
+require_relative 'diagonals_tests'
 
 class Board
   attr_reader :height, :width
@@ -54,6 +54,38 @@ class Board
 
   def diagonals_at(row, col)
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
+
+    result = []
+    if row.zero? && col.zero?
+      index = 0
+      upper_left_corner_diagonal = @spaces.map do |row|
+        index += 1
+        stringify(row[index - 1])
+      end
+      result.push(upper_left_corner_diagonal)
+    elsif row == height - 1 && col == width - 1
+      index = col
+      lower_right_corner_diagonal = @spaces.reverse.map do |row|
+        index -= 1
+        stringify(row[index + 1])
+      end.reverse
+      result.push(lower_right_corner_diagonal)
+    elsif row.zero? && col == width - 1
+      index = col
+      upper_right_corner_diagonal = @spaces.map do |row|
+        index -= 1
+        stringify(row[index + 1])
+      end
+      result.append(upper_right_corner_diagonal)
+    else
+      index = 0
+      lower_left_corner_diagonal = @spaces.reverse.map do |row|
+        index += 1
+        stringify(row[index - 1])
+      end.reverse
+      result.append(lower_left_corner_diagonal)
+    end
+    result
   end
 
   private
