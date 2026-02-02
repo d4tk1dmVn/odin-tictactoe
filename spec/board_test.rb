@@ -130,7 +130,7 @@ describe Board do
   context 'when creating a square, even sided board' do
     let(:row) { 3 }
     let(:column) { 3 }
-    subject(:board) { described_class.new }
+    subject(:board) { described_class.new(8, 8) }
     it 'can create an empty board' do
       empty_board = Array.new(8) { Array.new(8) { ' ' } }
       expect(board.show).to eq(empty_board)
