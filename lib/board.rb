@@ -49,6 +49,6 @@ class Board
   end
 
   def legal_coords?(row, col)
-    row.between?(0, @height) && col.between?(0, @width)
+    row.between?(0, height - 1) && col.between?(0, width - 1)
   end
 end
