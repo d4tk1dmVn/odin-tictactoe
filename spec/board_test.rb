@@ -1,5 +1,4 @@
 require_relative 'shared_board_tests'
-require_relative 'diagonals_tests'
 
 class Board
   attr_reader :height, :width
@@ -55,37 +54,13 @@ class Board
   def diagonals_at(row, col)
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
 
-    result = []
-    if row.zero? && col.zero?
-      index = 0
-      upper_left_corner_diagonal = @spaces.map do |row|
-        index += 1
-        stringify(row[index - 1])
-      end
-      result.push(upper_left_corner_diagonal)
-    elsif row == height - 1 && col == width - 1
-      index = col
-      lower_right_corner_diagonal = @spaces.reverse.map do |row|
-        index -= 1
-        stringify(row[index + 1])
-      end.reverse
-      result.push(lower_right_corner_diagonal)
-    elsif row.zero? && col == width - 1
-      index = col
-      upper_right_corner_diagonal = @spaces.map do |row|
-        index -= 1
-        stringify(row[index + 1])
-      end
-      result.append(upper_right_corner_diagonal)
-    else
-      index = 0
-      lower_left_corner_diagonal = @spaces.reverse.map do |row|
-        index += 1
-        stringify(row[index - 1])
-      end.reverse
-      result.append(lower_left_corner_diagonal)
-    end
-    result
+    upper_left_arm = diagonal_iteration([row - 1, col - 1], -> (r, c) { [r - 1, c - 1] })
+    lower_right_arm = diagonal_iteration([row + 1, col + 1], -> (r, c) { [r + 1, c + 1] })
+    left_diagonal = upper_left_arm.reverse + [self[row, col]] + lower_right_arm
+    upper_right_arm = diagonal_iteration([row - 1, col + 1], -> (r, c) { [r - 1, c + 1] })
+    lower_left_arm = diagonal_iteration([row + 1, col - 1], -> (r, c) { [r + 1, c - 1] })
+    right_diagonal = upper_right_arm.reverse + [self[row, col]] + lower_left_arm
+    [left_diagonal, right_diagonal]
   end
 
   private
@@ -99,8 +74,19 @@ class Board
   end
 
   def legal_coords?(row, col)
-    row.between?(0, @height) && col.between?(0, @width)
+    row.between?(0, height - 1) && col.between?(0, width - 1)
   end
+
+  def diagonal_iteration(pair, transformation)
+    result = []
+    until !legal_coords?(*pair) do
+      result.append(self[*pair])
+      pair = transformation.call(*pair)
+    end
+    result
+  end
+
+
 end
 
 describe Board do
@@ -115,6 +101,32 @@ describe Board do
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
+    end
+    context 'when running diagonals tests' do
+      before { fill_board_with_numbers }
+      it 'returns a list of length two' do
+        expect(board.diagonals_at(0, 0).length).to eq 2
+      end
+      it 'returns the correct diagonals for the top left corner space' do
+        expected_result = [%w[0 4 8], %w[0]]
+        expect(board.diagonals_at(0, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the top right corner space' do
+        expected_result = [%w[2], %w[2 4 6]]
+        expect(board.diagonals_at(0, 2)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the lower left corner space' do
+        expected_result = [%w[6], %w[2 4 6]]
+        expect(board.diagonals_at(2, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the lower right corner space' do
+        expected_result = [%w[0 4 8], %w[8]]
+        expect(board.diagonals_at(2, 2)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the center space' do
+        expected_result = [%w[0 4 8], %w[2 4 6]]
+        expect(board.diagonals_at(1, 1)).to eq expected_result
+      end
     end
   end
   context 'when creating a wider-than-taller board' do
