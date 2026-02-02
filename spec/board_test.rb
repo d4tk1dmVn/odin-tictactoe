@@ -85,13 +85,11 @@ class Board
     end
     result
   end
-
-
 end
 
 describe Board do
   let(:mark) { '$' }
-  context 'when creating a square board' do
+  context 'when creating a square, odd sided board' do
     let(:row) { 2 }
     let(:column) { 2 }
     subject(:board) { described_class.new }
