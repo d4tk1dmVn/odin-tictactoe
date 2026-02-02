@@ -33,8 +33,19 @@ class Board
   end
 
   def each_row
+    return to_enum(:each_row) unless block_given?
+
     @spaces.each do |row|
       yield row.map { |space| stringify(space) }
+    end
+  end
+
+  def each_column
+    return to_enum(:each_column) unless block_given?
+
+    width.times do |column_index|
+      column = @spaces.map { |row| row[column_index] }
+      yield column.map { |space| stringify(space) }
     end
   end
 
