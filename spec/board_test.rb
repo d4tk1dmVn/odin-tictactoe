@@ -127,6 +127,25 @@ describe Board do
       end
     end
   end
+  context 'when creating a square, even sided board' do
+    let(:row) { 3 }
+    let(:column) { 3 }
+    subject(:board) { described_class.new }
+    it 'can create an empty board' do
+      empty_board = Array.new(8) { Array.new(8) { ' ' } }
+      expect(board.show).to eq(empty_board)
+    end
+    context 'when running common board tests' do
+      include_examples 'common_board_tests'
+    end
+    context 'when running diagonals tests' do
+      before { fill_board_with_numbers }
+      it 'returns a list of length two' do
+        expect(board.diagonals_at(row, column).length).to eq 2
+      end
+    end
+  end
+
   context 'when creating a wider-than-taller board' do
     let(:row) { 3 }
     let(:column) { 5 }
