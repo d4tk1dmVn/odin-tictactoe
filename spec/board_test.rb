@@ -125,6 +125,22 @@ describe Board do
         expected_result = [%w[0 4 8], %w[2 4 6]]
         expect(board.diagonals_at(1, 1)).to eq expected_result
       end
+      it 'returns the correct diagonals for the top center space' do
+        expected_result = [%w[1 5], %w[1 3]]
+        expect(board.diagonals_at(0, 1)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the center left space' do
+        expected_result = [%w[3 7], %w[1 3]]
+        expect(board.diagonals_at(1, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the center right space' do
+        expected_result = [%w[1 5], %w[5 7]]
+        expect(board.diagonals_at(1, 2)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the lower center space' do
+        expected_result = [%w[3 7], %w[5 7]]
+        expect(board.diagonals_at(2, 1)).to eq expected_result
+      end
     end
   end
   context 'when creating a square, even sided board' do
