@@ -54,11 +54,11 @@ class Board
   def diagonals_at(row, col)
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
 
-    upper_left_arm = diagonal_iteration([row - 1, col - 1], -> (r, c) { [r - 1, c - 1] })
-    lower_right_arm = diagonal_iteration([row + 1, col + 1], -> (r, c) { [r + 1, c + 1] })
+    upper_left_arm = diagonal_iteration([row - 1, col - 1], ->(r, c) { [r - 1, c - 1] })
+    lower_right_arm = diagonal_iteration([row + 1, col + 1], ->(r, c) { [r + 1, c + 1] })
     left_diagonal = upper_left_arm.reverse + [self[row, col]] + lower_right_arm
-    upper_right_arm = diagonal_iteration([row - 1, col + 1], -> (r, c) { [r - 1, c + 1] })
-    lower_left_arm = diagonal_iteration([row + 1, col - 1], -> (r, c) { [r + 1, c - 1] })
+    upper_right_arm = diagonal_iteration([row - 1, col + 1], ->(r, c) { [r - 1, c + 1] })
+    lower_left_arm = diagonal_iteration([row + 1, col - 1], ->(r, c) { [r + 1, c - 1] })
     right_diagonal = upper_right_arm.reverse + [self[row, col]] + lower_left_arm
     [left_diagonal, right_diagonal]
   end
