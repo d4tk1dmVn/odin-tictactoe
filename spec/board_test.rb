@@ -159,6 +159,62 @@ describe Board do
       it 'returns a list of length two' do
         expect(board.diagonals_at(row, column).length).to eq 2
       end
+      it 'returns the correct diagonals for the [0, 0] coordinates' do
+        expected_result = [%w[0 9 18 27 36 45 54 63], %w[0]]
+        expect(board.diagonals_at(0, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 7] coordinates' do
+        expected_result = [%w[7], %w[7 14 21 28 35 42 49 56]]
+        expect(board.diagonals_at(0, 7)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 3] coordinates' do
+        expected_result = [%w[3 12 21 30 39], %w[3 10 17 24]]
+        expect(board.diagonals_at(0, 3)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 4] coordinates' do
+        expected_result = [%w[4 13 22 31], %w[4 11 18 25 32]]
+        expect(board.diagonals_at(0, 4)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 5] coordinates' do
+        expected_result = [%w[5 14 23], %w[5 12 19 26 33 40]]
+        expect(board.diagonals_at(0, 5)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 6] coordinates' do
+        expected_result = [%w[6 15], %w[6 13 20 27 34 41 48]]
+        expect(board.diagonals_at(0, 6)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [0, 7] coordinates' do
+        expected_result = [%w[7], %w[7 14 21 28 35 42 49 56]]
+        expect(board.diagonals_at(0, 7)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [1, 0] coordinates' do
+        expected_result = [%w[8 17 26 35 44 53 62], %w[1 8]]
+        expect(board.diagonals_at(1, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [1, 7] coordinates' do
+        expected_result = [%w[6 15], %w[15 22 29 36 43 50 57]]
+        expect(board.diagonals_at(1, 7)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [3, 0] coordinates' do
+        expected_result = [%w[24 33 42 51 60], %w[3 10 17 24]]
+        expect(board.diagonals_at(3, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [3, 7] coordinates' do
+        expected_result = [%w[4 13 22 31], %w[31 38 45 52 59]]
+        expect(board.diagonals_at(3, 7)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [7, 0] coordinates' do
+        expected_result = [%w[56], %w[7 14 21 28 35 42 49 56]]
+        expect(board.diagonals_at(7, 0)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [7, 4] coordinates' do
+        expected_result = [%w[24 33 42 51 60], %w[39 46 53 60]]
+        expect(board.diagonals_at(7, 4)).to eq expected_result
+      end
+      it 'returns the correct diagonals for the [7, 7] coordinates' do
+        expected_result = [%w[0 9 18 27 36 45 54 63], %w[63]]
+        expect(board.diagonals_at(7, 7)).to eq expected_result
+      end
     end
   end
 
