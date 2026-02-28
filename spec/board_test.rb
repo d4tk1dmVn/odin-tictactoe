@@ -79,7 +79,7 @@ class Board
 
   def diagonal_iteration(pair, transformation)
     result = []
-    until !legal_coords?(*pair) do
+    while legal_coords?(*pair)
       result.append(self[*pair])
       pair = transformation.call(*pair)
     end
