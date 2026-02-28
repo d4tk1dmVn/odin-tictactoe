@@ -229,6 +229,13 @@ describe Board do
     context 'when running common board tests' do
       include_examples 'common_board_tests'
     end
+    context 'when running diagonals tests' do
+      before { fill_board_with_numbers }
+      it 'returns the correct diagonals for the [3, 0] coordinates' do
+        expected_result = [%w[21 29 37], %w[3 9 15 21]]
+        expect(board.diagonals_at(3, 0)).to eq expected_result
+      end
+    end
   end
   context 'when creating a taller-than-wider board' do
     let(:row) { 5 }
@@ -240,6 +247,13 @@ describe Board do
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
+    end
+    context 'when running diagonals tests' do
+      before { fill_board_with_numbers }
+      it 'returns the correct diagonals for the [1, 0] coordinates' do
+        expected_result = [%w[6 13 20 27 34 41], %w[1 6]]
+        expect(board.diagonals_at(1, 0)).to eq expected_result
+      end
     end
   end
 end
