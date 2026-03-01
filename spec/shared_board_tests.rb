@@ -38,7 +38,7 @@ end
 RSpec.shared_examples 'common_board_tests' do
   context 'when reading/writing specific and valid spaces' do
     it 'can read a particular space of the empty board' do
-      expect(board[row, column]).to eq(:empty)
+      expect(board[row, column]).to eq('')
     end
     it 'can occupy an particular space on the empty board' do
       expect_mark_to_change(row, column)

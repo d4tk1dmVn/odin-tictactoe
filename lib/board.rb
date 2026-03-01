@@ -12,13 +12,13 @@ class Board
   def [](row, col)
     raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
-    @spaces[row][col]
+    stringify(@spaces[row][col])
   end
 
   def []=(row, col, mark)
     raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
-    @spaces[row][col] = mark
+    @spaces[row][col] = mark.to_sym
   end
 
   def full?
@@ -26,14 +26,21 @@ class Board
     true
   end
 
-  def each_row(&block)
-    spaces.each(&block)
+  def each_row
+    return to_enum(:each_row) unless block_given?
+
+    @spaces.each do |row|
+      yield row.map { |space| stringify(space) }
+    end
   end
 
   def each_column
     return to_enum(:each_column) unless block_given?
 
-    width.times { |column_index| yield @spaces.map { |row| row[column_index] } }
+    width.times do |column_index|
+      column = @spaces.map { |row| row[column_index] }
+      yield column.map { |space| stringify(space) }
+    end
   end
 
   def diagonals_at(row, col)
@@ -58,5 +65,9 @@ class Board
 
   def legal_coords?(row, col)
     row.between?(0, height - 1) && col.between?(0, width - 1)
+  end
+
+  def stringify(mark)
+    mark == EMPTY_SPACE ? '' : mark.to_s
   end
 end
