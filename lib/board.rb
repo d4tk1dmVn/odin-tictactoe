@@ -38,7 +38,7 @@ class Board
   end
 
   def diagonals_at(row, col)
-    raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
+    raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
     diagonal_one = []
     diagonal_two = []
