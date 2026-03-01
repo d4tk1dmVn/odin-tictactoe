@@ -6,7 +6,6 @@ class Board
   def initialize(height = 3, width = 3)
     @height = height
     @width = width
-    @empty_spaces = height * width
     @spaces = Array.new(height) { Array.new(width) { EMPTY_SPACE } }
   end
 
@@ -19,12 +18,12 @@ class Board
   def []=(row, col, mark)
     raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
-    @empty_spaces -= 1
     @spaces[row][col] = mark
   end
 
   def full?
-    @empty_spaces.zero?
+    height.times { |row| width.times { |col| return false if empty_space?(row, col) } }
+    true
   end
 
   def each_row(&block)
