@@ -43,13 +43,15 @@ class Board
   def diagonals_at(row, col)
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
 
-    upper_left_arm = diagonal_iteration([row - 1, col - 1], ->(r, c) { [r - 1, c - 1] })
-    lower_right_arm = diagonal_iteration([row + 1, col + 1], ->(r, c) { [r + 1, c + 1] })
-    left_diagonal = upper_left_arm.reverse + [self[row, col]] + lower_right_arm
-    upper_right_arm = diagonal_iteration([row - 1, col + 1], ->(r, c) { [r - 1, c + 1] })
-    lower_left_arm = diagonal_iteration([row + 1, col - 1], ->(r, c) { [r + 1, c - 1] })
-    right_diagonal = upper_right_arm.reverse + [self[row, col]] + lower_left_arm
-    [left_diagonal, right_diagonal]
+    diagonal_one = []
+    diagonal_two = []
+    height.times do |row_index|
+      d1 = row_index - (row - col)
+      d2 = (row + col) - row_index
+      diagonal_one << self[row_index, d1] if legal_coords?(row_index, d1)
+      diagonal_two << self[row_index, d2] if legal_coords?(row_index, d2)
+    end
+    [diagonal_one, diagonal_two]
   end
 
   private
@@ -60,15 +62,6 @@ class Board
 
   def legal_coords?(row, col)
     row.between?(0, height - 1) && col.between?(0, width - 1)
-  end
-
-  def diagonal_iteration(pair, transformation)
-    result = []
-    while legal_coords?(*pair)
-      result.append(self[*pair])
-      pair = transformation.call(*pair)
-    end
-    result
   end
 end
 
