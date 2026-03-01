@@ -11,14 +11,12 @@ class Board
   end
 
   def [](row, col)
-    # raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
     raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
     @spaces[row][col]
   end
 
   def []=(row, col, mark)
-    # raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
     raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
 
     @empty_spaces -= 1
