@@ -58,10 +58,6 @@ class Board
 
   private
 
-  # def empty_space?(row, col)
-  #   @spaces[row][col] == EMPTY_SPACE
-  # end
-
   def legal_coords?(row, col)
     row.between?(0, height - 1) && col.between?(0, width - 1)
   end
