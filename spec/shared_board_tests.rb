@@ -99,13 +99,6 @@ RSpec.shared_examples 'common_board_tests' do
     end
   end
 
-  context 'when the board is full' do
-    before { fill_board_with_mark }
-    it "can't occupy any space on the board" do
-      expect { board[row, column] = mark }.to raise_error('Board is full')
-    end
-  end
-
   context 'when going over the rows of the board' do
     context 'when a block is given' do
       it 'yields the control height amount of times' do

@@ -18,7 +18,6 @@ class Board
   end
 
   def []=(row, col, mark)
-    raise StandardError, 'Board is full' if full?
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
     raise StandardError, "Can't occupy an occupied space" unless empty_space?(row, col)
 
