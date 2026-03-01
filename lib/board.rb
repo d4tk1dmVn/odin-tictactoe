@@ -1,12 +1,16 @@
 require_relative '../lib/exceptions'
 class Board
-  attr_reader :height, :width, :spaces
+  attr_reader :height, :width
 
   EMPTY_SPACE = :empty
   def initialize(height = 3, width = 3)
     @height = height
     @width = width
     @spaces = Array.new(height) { Array.new(width) { EMPTY_SPACE } }
+  end
+
+  def spaces
+    @spaces.map { |row| row.map { |space| stringify(space) } }
   end
 
   def [](row, col)

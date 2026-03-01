@@ -8,7 +8,7 @@ describe Board do
     let(:column) { 2 }
     subject(:board) { described_class.new }
     it 'can create an empty board' do
-      empty_board = Array.new(3) { Array.new(3) { :empty } }
+      empty_board = Array.new(3) { Array.new(3) { '' } }
       expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
@@ -62,7 +62,7 @@ describe Board do
     let(:column) { 3 }
     subject(:board) { described_class.new(8, 8) }
     it 'can create an empty board' do
-      empty_board = Array.new(8) { Array.new(8) { :empty } }
+      empty_board = Array.new(8) { Array.new(8) { '' } }
       expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
@@ -137,7 +137,7 @@ describe Board do
     let(:column) { 5 }
     subject(:board) { described_class.new(6, 7) }
     it 'creates an empty board' do
-      empty_board = Array.new(6) { Array.new(7) { :empty } }
+      empty_board = Array.new(6) { Array.new(7) { '' } }
       expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
@@ -156,7 +156,7 @@ describe Board do
     let(:column) { 3 }
     subject(:board) { described_class.new(7, 6) }
     it 'creates an empty board' do
-      empty_board = Array.new(7) { Array.new(6) { :empty } }
+      empty_board = Array.new(7) { Array.new(6) { '' } }
       expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
