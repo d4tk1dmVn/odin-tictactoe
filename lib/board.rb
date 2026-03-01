@@ -22,8 +22,7 @@ class Board
   end
 
   def full?
-    height.times { |row| width.times { |col| return false if empty_space?(row, col) } }
-    true
+    @spaces.all? { |row| !row.include?(EMPTY_SPACE) }
   end
 
   def each_row
@@ -59,9 +58,9 @@ class Board
 
   private
 
-  def empty_space?(row, col)
-    @spaces[row][col] == EMPTY_SPACE
-  end
+  # def empty_space?(row, col)
+  #   @spaces[row][col] == EMPTY_SPACE
+  # end
 
   def legal_coords?(row, col)
     row.between?(0, height - 1) && col.between?(0, width - 1)
