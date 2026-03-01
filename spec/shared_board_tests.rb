@@ -1,9 +1,11 @@
+require_relative '../lib/exceptions'
+
 def expect_board_read_to_raise_out_of_bounds(row, column)
-  expect { board[row, column] }.to raise_error('Out of bounds space')
+  expect { board[row, column] }.to raise_error(Exceptions::OutOfBoundsError)
 end
 
 def expect_board_write_to_raise_out_of_bounds(row, column)
-  expect { board[row, column] = mark }.to raise_error('Out of bounds space')
+  expect { board[row, column] = mark }.to raise_error(Exceptions::OutOfBoundsError)
 end
 
 def expect_mark_to_change(row, column)
