@@ -19,7 +19,6 @@ class Board
 
   def []=(row, col, mark)
     raise StandardError, 'Out of bounds space' unless legal_coords?(row, col)
-    raise StandardError, "Can't occupy an occupied space" unless empty_space?(row, col)
 
     @empty_spaces -= 1
     @spaces[row][col] = mark

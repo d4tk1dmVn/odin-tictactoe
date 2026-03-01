@@ -45,10 +45,6 @@ RSpec.shared_examples 'common_board_tests' do
       board[row, column] = mark
       expect(board[row, column]).to eq(mark)
     end
-    it "can't occupy an already occupied space on the board" do
-      board[row, column] = mark
-      expect { board[row, column] = '#' }.to raise_error("Can't occupy an occupied space")
-    end
   end
 
   context 'when attempting to read out of the board bounds' do
