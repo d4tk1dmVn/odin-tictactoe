@@ -1,7 +1,7 @@
 require_relative 'shared_board_tests'
 
 class Board
-  attr_reader :height, :width
+  attr_reader :height, :width, :spaces
 
   EMPTY_SPACE = :empty
   def initialize(height = 3, width = 3)
@@ -9,10 +9,6 @@ class Board
     @width = width
     @empty_spaces = height * width
     @spaces = Array.new(height) { Array.new(width) { EMPTY_SPACE } }
-  end
-
-  def show
-    @spaces.map { |row| row.map { |space| stringify(space) } }
   end
 
   def [](row, col)
@@ -94,8 +90,8 @@ describe Board do
     let(:column) { 2 }
     subject(:board) { described_class.new }
     it 'can create an empty board' do
-      empty_board = Array.new(3) { Array.new(3) { ' ' } }
-      expect(board.show).to eq(empty_board)
+      empty_board = Array.new(3) { Array.new(3) { :empty } }
+      expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
@@ -148,8 +144,8 @@ describe Board do
     let(:column) { 3 }
     subject(:board) { described_class.new(8, 8) }
     it 'can create an empty board' do
-      empty_board = Array.new(8) { Array.new(8) { ' ' } }
-      expect(board.show).to eq(empty_board)
+      empty_board = Array.new(8) { Array.new(8) { :empty } }
+      expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
@@ -223,8 +219,8 @@ describe Board do
     let(:column) { 5 }
     subject(:board) { described_class.new(6, 7) }
     it 'creates an empty board' do
-      empty_board = Array.new(6) { Array.new(7) { ' ' } }
-      expect(board.show).to eq(empty_board)
+      empty_board = Array.new(6) { Array.new(7) { :empty } }
+      expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
@@ -242,8 +238,8 @@ describe Board do
     let(:column) { 3 }
     subject(:board) { described_class.new(7, 6) }
     it 'creates an empty board' do
-      empty_board = Array.new(7) { Array.new(6) { ' ' } }
-      expect(board.show).to eq(empty_board)
+      empty_board = Array.new(7) { Array.new(6) { :empty } }
+      expect(board.spaces).to eq(empty_board)
     end
     context 'when running common board tests' do
       include_examples 'common_board_tests'
