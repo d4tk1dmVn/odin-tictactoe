@@ -29,6 +29,12 @@ class Board
     @spaces.all? { |row| !row.include?(EMPTY_SPACE) }
   end
 
+  def empty?(row, col)
+    raise Exceptions::OutOfBoundsError unless legal_coords?(row, col)
+
+    @spaces[row][col] == EMPTY_SPACE
+  end
+
   def each_row
     return to_enum(:each_row) unless block_given?
 

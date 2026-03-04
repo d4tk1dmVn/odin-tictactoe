@@ -97,6 +97,19 @@ RSpec.shared_examples 'common_board_tests' do
     end
   end
 
+  context 'when checking if some spaces on the board are empty' do
+    it 'can not return anything if the space to check is out of bounds' do
+      expect { board.empty?(99, -99) }.to raise_error(Exceptions::OutOfBoundsError)
+    end
+    it 'can return false if the space is occupied' do
+      board[0, 0] = mark
+      expect(board.empty?(0, 0)).to eq(false)
+    end
+    it 'can return true if the space is empty' do
+      expect(board.empty?(0, 0)).to eq(true)
+    end
+  end
+
   context 'when going over the rows of the board' do
     context 'when a block is given' do
       it 'yields the control height amount of times' do
