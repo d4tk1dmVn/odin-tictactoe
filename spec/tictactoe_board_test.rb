@@ -13,4 +13,13 @@ describe TicTacToeBoard do
     board[0, 0] = 'X'
     expect { board[0, 0] = 'O' }.to raise_error(Exceptions::IllegalMoveError)
   end
+  it 'can be written with X' do
+    expect { board[0, 0] = 'X' }.not_to raise_error
+  end
+  it 'can be written with O' do
+    expect { board[0, 0] = 'O' }.not_to raise_error
+  end
+  it 'can not be written with non-X or non-O characters' do
+    expect { board[0, 0] = '$' }.to raise_error(Exceptions::UnknownMarkError)
+  end
 end

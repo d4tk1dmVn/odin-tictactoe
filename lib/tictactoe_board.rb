@@ -7,6 +7,7 @@ class TicTacToeBoard < Board
 
   def []=(row, col, mark)
     raise Exceptions::IllegalMoveError unless empty?(row, col)
+    raise Exceptions::UnknownMarkError unless %w[X O].include?(mark)
 
     super
   end
