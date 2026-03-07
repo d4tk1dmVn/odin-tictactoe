@@ -16,4 +16,8 @@ class TicTacToeArbiter
     os = %w[O O O]
     [rows, cols, diagonals].any? { |arr| arr.include?(exes) || arr.include?(os) }
   end
+
+  def tie?
+    !winner? && @board.full?
+  end
 end

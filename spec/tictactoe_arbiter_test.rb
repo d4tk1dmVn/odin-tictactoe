@@ -13,15 +13,27 @@ describe TicTacToeArbiter do
   let(:board) { instance_double('board') }
   subject(:arbiter) { described_class.new(board) }
   context 'when checking for a winner on an empty board' do
-    before { allow_board_scenario([['', '', ''], ['', '', ''], ['', '', '']]) }
+    before do
+      allow_board_scenario([['', '', ''], ['', '', ''], ['', '', '']])
+      allow(board).to receive(:full?).and_return false
+    end
     it 'there is no winner' do
       expect(arbiter.winner?).to be false
     end
+    it 'there is no tie' do
+      expect(arbiter.tie?).to be false
+    end
   end
   context 'when checking for a winner on full board with no winner' do
-    before { allow_board_scenario([%w[O X O], %w[X O X], %w[X O X]]) }
+    before do
+      allow_board_scenario([%w[O X O], %w[X O X], %w[X O X]])
+      allow(board).to receive(:full?).and_return true
+    end
     it 'there is no winner' do
       expect(arbiter.winner?).to be false
+    end
+    it 'there is a tie' do
+      expect(arbiter.tie?).to be true
     end
   end
   context 'when checking for a winner on a board with an X winner by rows' do
