@@ -5,7 +5,6 @@ class TicTacToeArbiter
 
   def initialize(board)
     @board = board
-    @last_mark = nil
   end
 
   def winner?
