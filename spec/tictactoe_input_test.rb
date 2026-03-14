@@ -1,43 +1,43 @@
 require_relative '../lib/tictactoe_input'
 
+def expect_reprompt(input_array, expected_result, board_state)
+  expect(ttt_input).to receive(:gets).exactly(2).times.and_return(*input_array)
+  expect(ttt_input.mark(board_state)).to eq(expected_result)
+end
+
 describe TicTacToeInput do
   subject(:ttt_input) { described_class.new }
-  context 'when getting valid input for marking the board' do
-    it 'can return [0, 0] when given 1' do
-      allow(ttt_input).to receive(:gets).and_return("1\n")
-      expect(ttt_input.mark).to eq([0, 0])
+  context 'when testing #mark' do
+    let(:all_numbers) { %W[1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n] }
+    let(:all_coords) { [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]] }
+    let(:zipped) { all_numbers.map { |string| string.chomp.to_i }.zip(all_coords) }
+    let(:board_state) { zipped.to_h }
+    let(:diminished_board) { zipped[1..].to_h }
+    context 'when getting valid input for marking the board' do
+      it 'can return all coordinates correctly ' do
+        expect(ttt_input).to receive(:gets).exactly(9).times.and_return(*all_numbers)
+        expect(9.times.map { ttt_input.mark(board_state) }).to match_array(all_coords)
+      end
     end
-    it 'can return [0, 1] when given 2' do
-      allow(ttt_input).to receive(:gets).and_return("2\n")
-      expect(ttt_input.mark).to eq([0, 1])
-    end
-    it 'can return [0, 2] when given 3' do
-      allow(ttt_input).to receive(:gets).and_return("3\n")
-      expect(ttt_input.mark).to eq([0, 2])
-    end
-    it 'can return [1, 0] when given 4' do
-      allow(ttt_input).to receive(:gets).and_return("4\n")
-      expect(ttt_input.mark).to eq([1, 0])
-    end
-    it 'can return [1, 1] when given 5' do
-      allow(ttt_input).to receive(:gets).and_return("5\n")
-      expect(ttt_input.mark).to eq([1, 1])
-    end
-    it 'can return [1, 2] when given 6' do
-      allow(ttt_input).to receive(:gets).and_return("6\n")
-      expect(ttt_input.mark).to eq([1, 2])
-    end
-    it 'can return [2, 0] when given 7' do
-      allow(ttt_input).to receive(:gets).and_return("7\n")
-      expect(ttt_input.mark).to eq([2, 0])
-    end
-    it 'can return [2, 1] when given 8' do
-      allow(ttt_input).to receive(:gets).and_return("8\n")
-      expect(ttt_input.mark).to eq([2, 1])
-    end
-    it 'can return [2, 2] when given 9' do
-      allow(ttt_input).to receive(:gets).and_return("9\n")
-      expect(ttt_input.mark).to eq([2, 2])
+    context 'when getting invalid input for marking the board' do
+      it 'remprompts when input is a random string' do
+        expect_reprompt(%W[verybadinput\n 1\n], [0, 0], board_state)
+      end
+      it 'remprompts when input is a positive numerical string outside of the 1-9 range' do
+        expect_reprompt(%W[42\n 1\n], [0, 0], board_state)
+      end
+      it 'remprompts when input is zero' do
+        expect_reprompt(%W[0\n 1\n], [0, 0], board_state)
+      end
+      it 'remprompts when input is a negative numerical string outside of the 1-9 range' do
+        expect_reprompt(%W[-1\n 1\n], [0, 0], board_state)
+      end
+      it 'remprompts when the number is a previously chosen number' do
+        expect_reprompt(%W[1\n 2\n], [0, 1], diminished_board)
+      end
+      it 'returns nil when all valid numbers have been chosen' do
+        expect(ttt_input.mark({})).to eq(nil)
+      end
     end
   end
 end
