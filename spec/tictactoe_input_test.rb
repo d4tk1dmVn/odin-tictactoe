@@ -52,4 +52,50 @@ describe TicTacToeInput do
       expect(ttt_input.player_name).to eq('AAA')
     end
   end
+  context 'when testing #yes_no_question?' do
+    let(:some_question) { "Is your refrigerator runninng?\n" }
+    let(:generic_prompt) { "Y/N?:\n" }
+    let(:bad_chars) { %w[a b c d e f g h i j k l m o p q r s t u v w x z y] }
+    let(:weird_chars) { ['', ' ', '$', '#', '0', '?', '!', '1', '\0', 'é', 'ñ', 'y'] }
+    let(:escape_chars) { ["\n", "\t", "\r", "\b", "\f", "\v", "\a", "\e", "\s", "\0", "\\", "\"", 'y'] }
+    let(:edge_cases) { ['.', '.*', '^', '$', '|', '?', '+', '*', '(', ')', '[', ']', '{', '}', 'nil', nil, 'false', 'yn', 'YN', 'Yn', 'nY', 'YY', 'NN', 'yy', 'nn', 'y'] }
+    it 'prints a generic prompt for input when no custom question is given' do
+      allow(ttt_input).to receive(:gets).and_return('y')
+      expect { ttt_input.yes_no_question? }.to output(generic_prompt).to_stdout
+    end
+    it 'prints a custom prompt for input when a custom question is given' do
+      allow(ttt_input).to receive(:gets).and_return('y')
+      expect { ttt_input.yes_no_question?(some_question) }.to output(some_question).to_stdout
+    end
+    it 'returns false if input given input is n or N' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(2).times.and_return('n', 'N')
+      expect(2.times.map { ttt_input.yes_no_question? }).to match_array([false, false])
+    end
+    it 'returns true if input given input is n or N' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(2).times.and_return('y', 'Y')
+      expect(2.times.map { ttt_input.yes_no_question? }).to match_array([true, true])
+    end
+    it 'reprompts for input if given wrong alphabetic chars' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(25).times.and_return(*bad_chars)
+      expect(ttt_input.yes_no_question?).to be true
+    end
+    it 'reprompts for input if given weird chars' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(12).times.and_return(*weird_chars)
+      expect(ttt_input.yes_no_question?).to be true
+    end
+    it 'reprompts for input if given escape chars' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(12).times.and_return(*escape_chars)
+      expect(ttt_input.yes_no_question?).to be true
+    end
+    it 'reprompts for input if given edge cases chars' do
+      allow(ttt_input).to receive(:puts)
+      expect(ttt_input).to receive(:gets).exactly(26).times.and_return(*edge_cases)
+      expect(ttt_input.yes_no_question?).to be true
+    end
+  end
 end
