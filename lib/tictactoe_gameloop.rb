@@ -15,13 +15,14 @@ class TicTacToeGameLoop
     @arbiter = TicTacToeArbiter.new(@board)
     @input = TicTacToeInput.new
     @output = TicTacToeOutput.new
-    @players = Array.new
+    @players = []
   end
 
   def reset
     @board = TicTacToeBoard.new
     @arbiter = TicTacToeArbiter.new(@board)
   end
+
   def turn
     output.show_board(board.spaces)
   end
