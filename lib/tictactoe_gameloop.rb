@@ -33,7 +33,10 @@ class TicTacToeGameLoop
   def create_players
     raise Exceptions::PlayersAlreadyCreatedError if players.length.positive?
 
-    2.times { players << Player.new(input.player_name) }
+    2.times do |time|
+      mark = (time % 2) == 0 ? 'X' : 'O'
+      players << Player.new(input.player_name, mark)
+    end
   end
 
   def reset
@@ -41,14 +44,15 @@ class TicTacToeGameLoop
     @arbiter = TicTacToeArbiter.new(@board)
   end
 
-  def turn
+  def turn(counter)
     output.show_board(board.spaces)
     row, col = *input.mark(translated_board)
-    board[row, col] = 'X'
+    board[row, col] = players[counter % 2].mark
   end
 
   def game
-    turn until arbiter.winner?
+    counter = 0
+    turn(counter) until arbiter.winner?
   end
 
   private
