@@ -21,6 +21,10 @@ describe TicTacToeGameLoop do
       allow(gameloop.input).to receive(:gets).and_return('AAA', 'BBB')
       expect { gameloop.create_players }.to change { gameloop.players }.from([]).to(array_including(instance_of(Player)))
     end
+    it 'creates exactly two players' do
+      allow(gameloop.input).to receive(:gets).and_return('AAA', 'BBB')
+      expect { gameloop.create_players}.to change { gameloop.players.length }.from(0).to(2)
+    end
     it 'raises an error if players are already created' do
       allow(gameloop.input).to receive(:gets).and_return('AAA', 'BBB')
       expect { 2.times { gameloop.create_players }}.to raise_error(Exceptions::PlayersAlreadyCreatedError)
@@ -35,14 +39,7 @@ describe TicTacToeGameLoop do
     end
   end
   context 'when running a turn of the game' do
-    before do
-      allow(gameloop.output).to receive(:print)
-    end
-    it 'calls turn' do
-      allow(gameloop.arbiter).to receive(:winner?).exactly(2).times.and_return(false, true)
-      expect(gameloop).to receive(:turn).exactly(1).times
-      gameloop.game
-    end
+    before { allow(gameloop.output).to receive(:print) }
     it 'asks the Output object to print the board' do
       allow(gameloop.input).to receive(:gets).and_return("1\n")
       board = gameloop.board
@@ -89,6 +86,11 @@ describe TicTacToeGameLoop do
   end
   context 'when testing a normal run of the game'do
     before { allow(gameloop.output).to receive(:print) }
+    it 'calls turn' do
+      allow(gameloop.arbiter).to receive(:winner?).exactly(2).times.and_return(false, true)
+      expect(gameloop).to receive(:turn).exactly(1).times
+      gameloop.game
+    end
     it 'queries the Arbiter to know if there is a winner' do
       expect(gameloop.arbiter).to receive(:winner?).and_return(true)
       gameloop.game
