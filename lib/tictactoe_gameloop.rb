@@ -4,6 +4,7 @@ require_relative 'tictactoe_board'
 require_relative 'tictactoe_input'
 require_relative 'tictactoe_output'
 require_relative 'player'
+require_relative 'exceptions'
 
 class TicTacToeGameLoop
   include BoardGameLoop
@@ -30,7 +31,7 @@ class TicTacToeGameLoop
   end
 
   def create_players
-    raise PlayersAlreadyCreatedError if players.length.positive?
+    raise Exceptions::PlayersAlreadyCreatedError if players.length.positive?
 
     2.times { players << Player.new(input.player_name) }
   end

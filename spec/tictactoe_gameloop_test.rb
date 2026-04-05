@@ -1,4 +1,5 @@
 require_relative '../lib/tictactoe_gameloop'
+require_relative '../lib/exceptions'
 
 describe TicTacToeGameLoop do
   subject(:gameloop) { described_class.new }
@@ -19,6 +20,10 @@ describe TicTacToeGameLoop do
     it 'it populates the players attribute with instances of Player' do
       allow(gameloop.input).to receive(:gets).and_return('AAA', 'BBB')
       expect { gameloop.create_players }.to change { gameloop.players }.from([]).to(array_including(instance_of(Player)))
+    end
+    it 'raises an error if players are already created' do
+      allow(gameloop.input).to receive(:gets).and_return('AAA', 'BBB')
+      expect { 2.times { gameloop.create_players }}.to raise_error(Exceptions::PlayersAlreadyCreatedError)
     end
   end
   context 'when resetting the gameloop' do
