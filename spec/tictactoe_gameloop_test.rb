@@ -119,6 +119,17 @@ describe TicTacToeGameLoop do
         expect(gameloop.players[1]).to receive(:mark).and_return('O')
         gameloop.game
       end
+      it 'queries the Board if it is full' do
+        expect(gameloop.board).to receive(:full?).and_return(true)
+        gameloop.game
+      end
+      it 'queries the Board if it is full until it is (provided there is no winner)' do
+        moves = [[0, 0], [2, 2], [0, 2], [2, 0], [2, 1], [0, 1], [1, 1], [1, 0], [1, 2]]
+        allow(gameloop.arbiter).to receive(:winner?).exactly(10).times.and_return(*Array.new(10, false))
+        expect(gameloop.input).to receive(:mark).exactly(9).times.and_return(*moves)
+        expect(gameloop.board).to receive(:full?).exactly(10).times.and_return(*Array.new(9, false), true)
+        gameloop.game
+      end
     end
   end
 end
