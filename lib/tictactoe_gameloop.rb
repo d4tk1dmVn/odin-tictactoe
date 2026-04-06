@@ -52,7 +52,10 @@ class TicTacToeGameLoop
 
   def game
     counter = 0
-    turn(counter) until arbiter.winner?
+    until arbiter.winner?
+      turn(counter)
+      counter += 1
+    end
   end
 
   private

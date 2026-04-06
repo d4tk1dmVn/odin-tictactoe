@@ -112,6 +112,13 @@ describe TicTacToeGameLoop do
         expect(gameloop.input).to receive(:mark).exactly(5).times.and_return([0, 0], [2, 0], [1, 1], [2, 1], [2, 2])
         gameloop.game
       end
+      it 'since it increments the counter, players marks should be different in between turns' do
+        allow(gameloop.arbiter).to receive(:winner?).exactly(3).times.and_return(false, false, true)
+        allow(gameloop.input).to receive(:mark).exactly(2).times.and_return([0, 0], [0, 1])
+        expect(gameloop.players[0]).to receive(:mark).and_return('X')
+        expect(gameloop.players[1]).to receive(:mark).and_return('O')
+        gameloop.game
+      end
     end
   end
 end
