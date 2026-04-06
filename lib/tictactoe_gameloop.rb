@@ -8,16 +8,17 @@ require_relative 'exceptions'
 
 class TicTacToeGameLoop
   include BoardGameLoop
+
   KEYS_TO_COORDS_MAP = {
-        1 => [0, 0],
-        2 => [0, 1],
-        3 => [0, 2],
-        4 => [1, 0],
-        5 => [1, 1],
-        6 => [1, 2],
-        7 => [2, 0],
-        8 => [2, 1],
-        9 => [2, 2]
+    1 => [0, 0],
+    2 => [0, 1],
+    3 => [0, 2],
+    4 => [1, 0],
+    5 => [1, 1],
+    6 => [1, 2],
+    7 => [2, 0],
+    8 => [2, 1],
+    9 => [2, 2]
   }.freeze
 
   attr_reader :arbiter, :board, :input, :output, :players
@@ -34,7 +35,7 @@ class TicTacToeGameLoop
     raise Exceptions::PlayersAlreadyCreatedError if players.length.positive?
 
     2.times do |time|
-      mark = (time % 2) == 0 ? 'X' : 'O'
+      mark = time.even? ? 'X' : 'O'
       players << Player.new(input.player_name, mark)
     end
   end
