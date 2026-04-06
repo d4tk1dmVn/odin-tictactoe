@@ -3,4 +3,5 @@ module Exceptions
   class IllegalMoveError < StandardError; end
   class UnknownMarkError < StandardError; end
   class PlayersAlreadyCreatedError < StandardError; end
+  class PlayersNotCorrectlyCreatedError < StandardError; end
 end
