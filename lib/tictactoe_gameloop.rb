@@ -51,11 +51,11 @@ class TicTacToeGameLoop
     board[row, col] = current_player(turn_counter).mark
   end
 
-  def game
+  def run_one_game
     turn_counter = 0
     until arbiter.winner? || board.full?
       turn(turn_counter)
-      turn_countercounter += 1
+      turn_counter += 1
     end
   end
 

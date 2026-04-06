@@ -101,34 +101,34 @@ describe TicTacToeGameLoop do
       it 'calls turn' do
         allow(gameloop.arbiter).to receive(:winner?).exactly(2).times.and_return(false, true)
         expect(gameloop).to receive(:turn).exactly(1).times.with(0)
-        gameloop.game
+        gameloop.run_one_game
       end
       it 'queries the Arbiter to know if there is a winner' do
         expect(gameloop.arbiter).to receive(:winner?).and_return(true)
-        gameloop.game
+        gameloop.run_one_game
       end
       it 'queries the Arbiter if there is a winner until there is one' do
         allow(gameloop.arbiter).to receive(:winner?).exactly(6).times.and_return(false, false, false, false, false, true)
         expect(gameloop.input).to receive(:mark).exactly(5).times.and_return([0, 0], [2, 0], [1, 1], [2, 1], [2, 2])
-        gameloop.game
+        gameloop.run_one_game
       end
       it 'since it increments the counter, players marks should be different in between turns' do
         allow(gameloop.arbiter).to receive(:winner?).exactly(3).times.and_return(false, false, true)
         allow(gameloop.input).to receive(:mark).exactly(2).times.and_return([0, 0], [0, 1])
         expect(gameloop.players[0]).to receive(:mark).and_return('X')
         expect(gameloop.players[1]).to receive(:mark).and_return('O')
-        gameloop.game
+        gameloop.run_one_game
       end
       it 'queries the Board if it is full' do
         expect(gameloop.board).to receive(:full?).and_return(true)
-        gameloop.game
+        gameloop.run_one_game
       end
       it 'queries the Board if it is full until it is (provided there is no winner)' do
         moves = [[0, 0], [2, 2], [0, 2], [2, 0], [2, 1], [0, 1], [1, 1], [1, 0], [1, 2]]
         allow(gameloop.arbiter).to receive(:winner?).exactly(10).times.and_return(*Array.new(10, false))
         expect(gameloop.input).to receive(:mark).exactly(9).times.and_return(*moves)
         expect(gameloop.board).to receive(:full?).exactly(10).times.and_return(*Array.new(9, false), true)
-        gameloop.game
+        gameloop.run_one_game
       end
     end
   end
