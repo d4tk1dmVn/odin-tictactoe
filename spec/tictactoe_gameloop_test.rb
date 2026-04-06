@@ -22,10 +22,10 @@ describe TicTacToeGameLoop do
       expect { gameloop.create_players }.to change { gameloop.players }.from([]).to(array_including(instance_of(Player)))
     end
     it 'creates exactly two players' do
-      expect { gameloop.create_players}.to change { gameloop.players.length }.from(0).to(2)
+      expect { gameloop.create_players }.to change { gameloop.players.length }.from(0).to(2)
     end
     it 'raises an error if players are already created' do
-      expect { 2.times { gameloop.create_players }}.to raise_error(Exceptions::PlayersAlreadyCreatedError)
+      expect { 2.times { gameloop.create_players } }.to raise_error(Exceptions::PlayersAlreadyCreatedError)
     end
   end
   context 'when resetting the gameloop' do
@@ -77,7 +77,7 @@ describe TicTacToeGameLoop do
           4 => [1, 0],
           6 => [1, 2],
           7 => [2, 0],
-          8 => [2, 1],
+          8 => [2, 1]
         }
         expect(input).to receive(:mark).with(keys_to_coords_map).and_return([1, 0])
         gameloop.turn(0)
@@ -97,7 +97,7 @@ describe TicTacToeGameLoop do
         expect { gameloop.turn(0) }.to(change { gameloop.board.spaces })
       end
     end
-    context 'when testing a normal run of the game'do
+    context 'when testing a normal run of the game' do
       it 'calls turn' do
         allow(gameloop.arbiter).to receive(:winner?).exactly(2).times.and_return(false, true)
         expect(gameloop).to receive(:turn).exactly(1).times.with(0)
