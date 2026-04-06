@@ -45,21 +45,27 @@ class TicTacToeGameLoop
     @arbiter = TicTacToeArbiter.new(@board)
   end
 
-  def turn(counter)
+  def turn(turn_counter)
     output.show_board(board.spaces)
     row, col = *input.mark(translated_board)
-    board[row, col] = players[counter % 2].mark
+    board[row, col] = current_player(turn_counter).mark
   end
 
   def game
-    counter = 0
-    until arbiter.winner?
-      turn(counter)
-      counter += 1
+    turn_counter = 0
+    until arbiter.winner? || board.full?
+      turn(turn_counter)
+      turn_countercounter += 1
     end
   end
 
   private
+
+  def current_player(turn_counter)
+    raise Exceptions::PlayersNotCorrectlyCreatedError if players.length != 2
+
+    players[turn_counter % 2]
+  end
 
   def translated_board
     result = KEYS_TO_COORDS_MAP.dup
