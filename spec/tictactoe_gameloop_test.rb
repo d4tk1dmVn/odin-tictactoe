@@ -131,5 +131,20 @@ describe TicTacToeGameLoop do
         gameloop.run_one_game
       end
     end
+    context 'when testing the main loop' do
+      it 'calls #run_one_game' do
+        expect(gameloop).to receive(:run_one_game)
+        gameloop.main
+      end
+      it 'queries the Arbiter to know if there is a tie' do
+        expect(gameloop.arbiter).to receive(:tie?)
+        gameloop.main
+      end
+      it 'modifies Player 1 score if they are a winner' do
+        allow(gameloop.arbiter).to receive(:tie?).and_return(false)
+        allow(gameloop).to receive(:run_one_game).and_return(0)
+        expect(players[0].score)
+      end
+    end
   end
 end
