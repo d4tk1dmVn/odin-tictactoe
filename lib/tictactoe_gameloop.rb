@@ -59,6 +59,12 @@ class TicTacToeGameLoop
     end
   end
 
+  def main
+    run_one_game
+    arbiter.tie?
+    players[0].score += 1 if arbiter.winner == players[0].mark
+  end
+
   private
 
   def current_player(turn_counter)

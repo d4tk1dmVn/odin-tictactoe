@@ -137,13 +137,15 @@ describe TicTacToeGameLoop do
         gameloop.main
       end
       it 'queries the Arbiter to know if there is a tie' do
+        expect(gameloop.arbiter).to receive(:winner?).and_return(true)
         expect(gameloop.arbiter).to receive(:tie?)
         gameloop.main
       end
       it 'modifies Player 1 score if they are a winner' do
-        allow(gameloop.arbiter).to receive(:tie?).and_return(false)
-        allow(gameloop).to receive(:run_one_game).and_return(0)
-        expect(players[0].score)
+        allow(gameloop.arbiter).to receive(:winner?).exactly(6).times.and_return(false, false, false, false, false, true)
+        allow(gameloop.input).to receive(:mark).exactly(5).times.and_return([0, 0], [2, 0], [1, 1], [2, 1], [2, 2])
+        allow(gameloop.arbiter).to receive(:winner).and_return('X')
+        expect { gameloop.main }.to(change { gameloop.players[0].score })
       end
     end
   end
