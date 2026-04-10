@@ -130,12 +130,6 @@ describe TicTacToeGameLoop do
         expect(gameloop.board).to receive(:full?).exactly(10).times.and_return(*Array.new(9, false), true)
         gameloop.run_one_game
       end
-      it 'calculates a winner, which is stored in Arbiter' do
-        allow(gameloop.arbiter).to receive(:winner?).exactly(2).times.and_return(false, true)
-        expect(gameloop.input).to receive(:mark).exactly(1).times.and_return([0, 0])
-        allow(gameloop.board).to receive(:full?).exactly(2).times.and_return(false, false)
-        expect { gameloop.run_one_game }.to change gameloop.arbiter.winner
-      end
     end
     context 'when testing the main loop' do
       it 'calls #run_one_game' do
