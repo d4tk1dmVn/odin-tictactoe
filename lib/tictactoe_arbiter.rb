@@ -3,6 +3,8 @@ require_relative 'arbiter'
 class TicTacToeArbiter
   include Arbiter
 
+  attr_accessor :winner
+
   def initialize(board)
     @board = board
   end
