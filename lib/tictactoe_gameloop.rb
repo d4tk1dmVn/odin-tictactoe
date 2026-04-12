@@ -29,15 +29,7 @@ class TicTacToeGameLoop
     @input = TicTacToeInput.new
     @output = TicTacToeOutput.new
     @players = []
-  end
-
-  def create_players
-    raise Exceptions::PlayersAlreadyCreatedError if players.length.positive?
-
-    2.times do |time|
-      mark = time.even? ? 'X' : 'O'
-      players << Player.new(input.player_name, mark)
-    end
+    create_players
   end
 
   def reset
@@ -60,12 +52,21 @@ class TicTacToeGameLoop
   end
 
   def main
-    run_one_game
-    arbiter.tie?
-    players[0].score += 1 if arbiter.winner == players[0].mark
+    create_players
+    players.each { |player| player.score += 1 } unless arbiter.tie?
+    arbiter.winner
   end
 
   private
+
+  def create_players
+    raise Exceptions::PlayersAlreadyCreatedError if players.length.positive?
+
+    2.times do |time|
+      mark = time.even? ? 'X' : 'O'
+      players << Player.new(input.player_name, mark)
+    end
+  end
 
   def current_player(turn_counter)
     raise Exceptions::PlayersNotCorrectlyCreatedError if players.length != 2
