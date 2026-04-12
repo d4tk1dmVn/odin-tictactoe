@@ -52,9 +52,12 @@ class TicTacToeGameLoop
   end
 
   def main
-    create_players
-    players.each { |player| player.score += 1 } unless arbiter.tie?
-    arbiter.winner
+    run_one_game
+    unless arbiter.tie?
+      winners_mark = arbiter.winner
+      winner = players[0].mark == winners_mark ? players[0] : players[1]
+      winner.score += 1
+    end
   end
 
   private

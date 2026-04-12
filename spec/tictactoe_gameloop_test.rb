@@ -117,18 +117,41 @@ describe TicTacToeGameLoop do
   end
   context 'when testing the main loop' do
     it 'queries the Arbiter to know if there is a tie' do
+      allow(gameloop).to receive(:run_one_game).and_return(nil)
+      allow(gameloop.output).to receive(:show_scores)
       expect(gameloop.arbiter).to receive(:tie?)
       gameloop.main
     end
     it 'queries the Arbiter to know who the winner is' do
+      allow(gameloop).to receive(:run_one_game).and_return(nil)
+      allow(gameloop.output).to receive(:show_scores)
       expect(gameloop.arbiter).to receive(:winner).exactly(2).times
       gameloop.main
     end
-    it 'raises the score of player 1 if they win' do
+    it 'raises ONLY the score of player 1 if they win' do
+      allow(gameloop).to receive(:run_one_game).and_return(nil)
+      allow(gameloop.output).to receive(:show_scores)
       allow(gameloop.arbiter).to receive(:tie?).and_return false
       allow(gameloop.arbiter).to receive(:winner).and_return 'X'
-      player_one_score = gameloop.players[0].score
-      expect { gameloop.main }.to change(player_one_score).from(nil).to(1)
+      expect { gameloop.main }.to(change { gameloop.players[0].score }.from(0).to(1))
+      expect { gameloop.main }.not_to(change { gameloop.players[1].score })
+    end
+    it 'raises ONLY the score of player 2 if they win' do
+      allow(gameloop).to receive(:run_one_game).and_return(nil)
+      allow(gameloop.output).to receive(:show_scores)
+      allow(gameloop.arbiter).to receive(:tie?).and_return false
+      allow(gameloop.arbiter).to receive(:winner).and_return 'O'
+      expect { gameloop.main }.to(change { gameloop.players[1].score }.from(0).to(1))
+      expect { gameloop.main }.not_to(change { gameloop.players[0].score })
+    end
+    it 'calls #run_one_game' do
+      allow(gameloop.output).to receive(:show_scores)
+      expect(gameloop).to receive(:run_one_game)
+      gameloop.main
+    end
+    it 'calls #show_scores' do
+      expect(gameloop.output).to receive(:show_scores)
+      gameloop.main
     end
   end
 end
