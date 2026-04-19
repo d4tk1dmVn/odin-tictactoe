@@ -1,4 +1,5 @@
 require_relative '../lib/tictactoe_output'
+require_relative '../lib/player'
 
 describe TicTacToeOutput do
   subject(:output) { described_class.new }
@@ -33,6 +34,28 @@ describe TicTacToeOutput do
         expected_output = "\t.---.---.---.\n\t| X | X | X |\n\t.---.---.---.\n\t| O | O | X |\n\t.---.---.---.\n\t| X | X | O |\n\t.---.---.---.\n"
         expect(output).to receive(:print).with(expected_output)
         expect(output.show_board(full_spaces))
+      end
+    end
+  end
+  context 'when outputting players scores' do
+    let(:players) { [Player.new('Pablo'), Player.new('Bablo')] }
+    context 'when players have the same score' do
+      it 'outputs that players are tied' do
+        expected_output = 'Players are TIED'
+        expect(output).to receive(:puts).with(expected_output)
+        expect(output.show_scores(players))
+      end
+    end
+    context 'when players have different scores' do
+      it 'outputs each player score' do
+        players[0].score += 1
+        player_one_name = players[0].name
+        player_one_score = players[0].score
+        player_two_name = players[1].name
+        player_two_score = players[1].score
+        expected_output = "#{player_one_name}: #{player_one_score} | #{player_two_name}: #{player_two_score}"
+        expect(output).to receive(:puts).with(expected_output)
+        expect(output.show_scores(players))
       end
     end
   end
