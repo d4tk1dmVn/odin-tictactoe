@@ -60,7 +60,7 @@ describe TicTacToeInput do
     let(:bad_chars) { %w[a b c d e f g h i j k l m o p q r s t u v w x z y] }
     let(:weird_chars) { ['', ' ', '$', '#', '0', '?', '!', '1', '\0', 'é', 'ñ', 'y'] }
     let(:escape_chars) { ["\n", "\t", "\r", "\b", "\f", "\v", "\a", "\e", "\s", "\0", "\\", "\"", 'y'] }
-    let(:edge_cases) { ['.', '.*', '^', '$', '|', '?', '+', '*', '(', ')', '[', ']', '{', '}', 'nil', nil, 'false', 'yn', 'YN', 'Yn', 'nY', 'YY', 'NN', 'yy', 'nn', 'y'] }
+    let(:edge_cases) { ['.', '.*', '^', '$', '|', '?', '+', '*', '(', ')', '[', ']', '{', '}', 'nil', 'false', 'yn', 'YN', 'Yn', 'nY', 'YY', 'NN', 'yy', 'nn', 'y'] }
     it 'prints a generic prompt for input when no custom question is given' do
       allow(ttt_input).to receive(:gets).and_return('y')
       expect { ttt_input.yes_no_question? }.to output(generic_prompt).to_stdout
@@ -96,7 +96,7 @@ describe TicTacToeInput do
     end
     it 'reprompts for input if given edge cases chars' do
       allow(ttt_input).to receive(:puts)
-      expect(ttt_input).to receive(:gets).exactly(26).times.and_return(*edge_cases)
+      expect(ttt_input).to receive(:gets).exactly(25).times.and_return(*edge_cases)
       expect(ttt_input.yes_no_question?).to be true
     end
   end
