@@ -28,10 +28,12 @@ class TicTacToeInput
   private
 
   def read_integer
-    gets(MARK_MESSAGE).chomp.to_i
+    puts MARK_MESSAGE
+    gets.chomp.to_i
   end
 
   def read_name
-    gets(PLAYER_MESSAGE).chomp
+    puts PLAYER_MESSAGE
+    gets.chomp
   end
 end
