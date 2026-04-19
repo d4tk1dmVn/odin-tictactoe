@@ -21,7 +21,7 @@ class TicTacToeInput
   def yes_no_question?(custom_question = nil)
     custom_question.nil? ? puts(GENERIC_YN_PROMPT) : puts(custom_question)
     input = ''
-    input = gets until %w[y n N Y].include?(input)
+    input = gets.chomp until %w[y n N Y].include?(input)
     %w[y Y].include?(input)
   end
 
