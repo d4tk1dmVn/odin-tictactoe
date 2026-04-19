@@ -19,7 +19,7 @@ class TicTacToeOutput
   private
 
   def row_as_string(row)
-    sanitized = row.map { |space| space.chars[0] }
+    sanitized = row.map { |space| space.chars[0] || "\s" }
     a, b, c = *sanitized
     "\t| #{a} | #{b} | #{c} |\n"
   end
