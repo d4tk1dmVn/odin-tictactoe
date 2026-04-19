@@ -8,6 +8,7 @@ end
 describe TicTacToeInput do
   subject(:ttt_input) { described_class.new }
   context 'when testing #mark' do
+    before { allow(ttt_input).to receive(:puts) }
     let(:all_numbers) { %W[1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n] }
     let(:all_coords) { [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]] }
     let(:zipped) { all_numbers.map { |string| string.chomp.to_i }.zip(all_coords) }
@@ -41,6 +42,7 @@ describe TicTacToeInput do
     end
   end
   context 'when testing #player_name' do
+    before { allow(ttt_input).to receive(:puts) }
     let(:all_letters) { %w[AAA BBB CCC DDD EEE FFF GGG HHH III JJJ KKK LLL MMM NNN OOO PPP QQQ RRR SSS TTT UUU VVV WWW YYY XXX ZZZ] }
     let(:reprompt_cases) { %w[toolong TOOLONG aaaa sh aa1 aa$ AAA] }
     it 'can return alphabetic 3 charactered string for each anglosaxon character' do
