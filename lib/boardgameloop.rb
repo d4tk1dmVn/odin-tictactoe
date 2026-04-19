@@ -7,6 +7,10 @@ module BoardGameLoop
     raise NotImplementedError
   end
 
+  def main
+    raise NotImplementedError
+  end
+
   def reset
     raise NotImplementedError
   end
