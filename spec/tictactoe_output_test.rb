@@ -38,7 +38,7 @@ describe TicTacToeOutput do
     end
   end
   context 'when outputting players scores' do
-    let(:players) { [Player.new('Pablo'), Player.new('Bablo')] }
+    let(:players) { [Player.new('Pablo', 'X'), Player.new('Bablo', 'O')] }
     context 'when players have the same score' do
       it 'outputs that players are tied' do
         expected_output = 'Players are TIED'
