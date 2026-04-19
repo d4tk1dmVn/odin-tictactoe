@@ -3,7 +3,7 @@ module BoardGameLoop
     raise NotImplementedError
   end
 
-  def game
+  def run_one_game
     raise NotImplementedError
   end
 
