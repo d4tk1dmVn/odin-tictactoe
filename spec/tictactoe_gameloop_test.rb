@@ -150,6 +150,7 @@ describe TicTacToeGameLoop do
       gameloop.main
     end
     it 'calls #show_scores' do
+      allow(gameloop).to receive(:run_one_game).and_return(nil)
       expect(gameloop.output).to receive(:show_scores)
       gameloop.main
     end
