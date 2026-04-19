@@ -58,6 +58,7 @@ class TicTacToeGameLoop
       winner = players[0].mark == winners_mark ? players[0] : players[1]
       winner.score += 1
     end
+    output.show_board(board.spaces)
     output.show_scores(players)
   end
 
